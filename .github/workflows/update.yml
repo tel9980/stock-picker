@@ -37,9 +37,9 @@ jobs:
           git config --local user.name "GitHub Action"
           git add docs/
           git diff --staged --quiet || git commit -m "更新选股结果 $(date +'%Y-%m-%d')"
-          git pull --rebase
-          git push
-
+          git fetch origin main
+          git rebase origin/main || git rebase --abort
+          git push || git push --force-with-lease
   deploy:
     needs: run-strategy
     runs-on: ubuntu-latest
